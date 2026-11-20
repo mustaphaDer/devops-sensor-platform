@@ -1,0 +1,18 @@
+groups:
+  - name: sensor-api
+    rules:
+      - alert: HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{route="/readings"}[1m]))) > 0.1
+        for: 2m
+        labels: { severity: warning }
+        annotations: { summary: "p95 latency of POST /readings above 100 ms" }
+      - alert: HighErrorRate
+        expr: sum(rate(http_requests_total{status=~"5.."}[1m])) / clamp_min(sum(rate(http_requests_total[1m])), 1e-9) > 0.01
+        for: 1m
+        labels: { severity: critical }
+        annotations: { summary: "more than 1% of requests fail with 5xx" }
+      - alert: AnomalyBurst
+        expr: sum(rate(sensor_anomalies_total[5m])) > 1
+        for: 1m
+        labels: { severity: info }
+        annotations: { summary: "more than one anomalous reading per second" }

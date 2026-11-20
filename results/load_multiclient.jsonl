@@ -1,0 +1,8 @@
+{"label": "async, 1 worker(s), client 1/4", "concurrency": 16, "duration_s": 10.0, "requests": 2808, "errors": 0, "throughput_rps": 280.0, "p50_ms": 56.13, "p95_ms": 76.52, "p99_ms": 82.7}
+{"label": "async, 1 worker(s), client 2/4", "concurrency": 16, "duration_s": 10.0, "requests": 2811, "errors": 0, "throughput_rps": 280.3, "p50_ms": 55.89, "p95_ms": 76.01, "p99_ms": 83.26}
+{"label": "async, 1 worker(s), client 3/4", "concurrency": 16, "duration_s": 10.0, "requests": 2801, "errors": 0, "throughput_rps": 279.3, "p50_ms": 55.98, "p95_ms": 76.28, "p99_ms": 82.83}
+{"label": "async, 1 worker(s), client 4/4", "concurrency": 16, "duration_s": 10.0, "requests": 2808, "errors": 0, "throughput_rps": 280.0, "p50_ms": 55.94, "p95_ms": 76.58, "p99_ms": 82.74}
+{"label": "async, 4 worker(s), client 1/4", "concurrency": 16, "duration_s": 10.0, "requests": 2456, "errors": 0, "throughput_rps": 244.4, "p50_ms": 29.77, "p95_ms": 224.42, "p99_ms": 376.38}
+{"label": "async, 4 worker(s), client 2/4", "concurrency": 16, "duration_s": 10.0, "requests": 2499, "errors": 0, "throughput_rps": 248.8, "p50_ms": 30.56, "p95_ms": 206.66, "p99_ms": 358.22}
+{"label": "async, 4 worker(s), client 3/4", "concurrency": 16, "duration_s": 10.0, "requests": 2495, "errors": 0, "throughput_rps": 248.5, "p50_ms": 30.05, "p95_ms": 210.41, "p99_ms": 365.77}
+{"label": "async, 4 worker(s), client 4/4", "concurrency": 16, "duration_s": 10.1, "requests": 2377, "errors": 0, "throughput_rps": 236.5, "p50_ms": 32.24, "p95_ms": 223.06, "p99_ms": 406.91}

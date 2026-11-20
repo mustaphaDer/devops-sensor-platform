@@ -1,0 +1,46 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: pytest -q
+
+  image:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --build-arg APP_VERSION=${GITHUB_SHA::7} -t sensor-api:${{ github.sha }} .
+      - name: Smoke test the container
+        run: |
+          docker run -d --name api -p 8000:8000 sensor-api:${{ github.sha }}
+          for i in $(seq 1 20); do curl -fs localhost:8000/healthz && break; sleep 1; done
+          curl -fs -X POST localhost:8000/readings -H 'content-type: application/json' \
+               -d '{"machine_id":"ci-1","value":42}'
+          docker logs api
+      - name: Scan image for HIGH/CRITICAL vulnerabilities
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: sensor-api:${{ github.sha }}
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "0"   # report only; set to "1" to fail the build
+        continue-on-error: true
+
+  manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Kubernetes manifests
+        run: |
+          curl -sL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz | tar xz
+          ./kubeconform -strict -summary k8s/deployment.yaml k8s/service.yaml k8s/hpa.yaml k8s/pdb.yaml

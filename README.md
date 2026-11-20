@@ -1,5 +1,7 @@
 # Sensor platform: containerised API with monitoring, CI/CD and Kubernetes
 
+[![ci](https://github.com/mustaphaDer/devops-sensor-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/mustaphaDer/devops-sensor-platform/actions/workflows/ci.yml)
+
 A small industrial-IoT service (machines send temperature readings, the API
 flags anomalies with a rolling z-score), built to practise the **full delivery
 chain**: tests → container → CI pipeline → monitoring → Kubernetes, plus a
@@ -103,7 +105,8 @@ load generator on a separate machine.
   That's fine for a factory hall; for thousands of devices, drop or bucket it.
 - **Not done in this session:** the Kubernetes manifests were written but **not
   deployed**. The minikube base-image download (520 MB) stalled on my
-  connection, and the CI workflow has not run on GitHub yet.
+  connection. The CI workflow does run on GitHub Actions and passes
+  (lint and tests, manifest validation, image build, smoke test and Trivy scan).
 - The Trivy step only reports; it does not fail the build yet.
 
 ## Why I built it
